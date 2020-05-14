@@ -1,4 +1,7 @@
+import 'package:file_management/sizeconfig.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
 void main() => runApp(MyApp());
 
@@ -6,106 +9,213 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
+    return LayoutBuilder(builder: (context, constraints) {
+      return OrientationBuilder(builder: (context, orientation) {
+        Responsive().init(constraints, orientation);
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: HomePage(title: 'Flutter Demo Home Page'),
+        );
+      });
+    });
+
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+class HomePage extends StatefulWidget {
+  HomePage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<HomePage> {
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  double sizing;
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      floatingActionButton: CircleAvatar(
+        radius: 7.8 * Responsive.widthMultiplier,
+        backgroundColor: Color(0xFF63cb99),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: Icon(
+            Icons.menu,
+            color: Colors.grey[700],
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              top: 1.8 * Responsive.imageSizeMultiplier,
+              right: 6 * Responsive.imageSizeMultiplier
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.indigo[100],
+                shape: BoxShape.circle,
+                border: Border.all(
+                    color: Colors.indigo,
+                    width: 0.25 * Responsive.imageSizeMultiplier
+                )
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(2.6 * Responsive.imageSizeMultiplier),
+                child: Icon(
+                  Icons.person,
+                  color: Colors.indigo,
+                  size: 4.5 * Responsive.imageSizeMultiplier,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+      body: Container(
+        color: Colors.white,
+        child: ListView(
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            Padding(
+              padding: EdgeInsets.only(
+                top: 6 * Responsive.imageSizeMultiplier,
+                left: 6 * Responsive.imageSizeMultiplier,
+                right: 6 * Responsive.imageSizeMultiplier,
+              ),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "My Files",
+                    style: TextStyle(
+                      fontSize: 3.4 * Responsive.textMultiplier,
+                      color: Colors.grey[500]
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(
+                    Icons.more_horiz,
+                    size: 6 * Responsive.imageSizeMultiplier,
+                    color: Colors.grey[500],
+                  )
+                ],
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+            SizedBox(
+              height: 6 * Responsive.heightMultiplier,
             ),
+            Padding(
+              padding: EdgeInsets.only(
+                right: 6 * Responsive.imageSizeMultiplier
+              ),
+              child: Row(
+                children: <Widget>[
+                  Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      _circleChart(40, 83.33, 56.67, color: Colors.indigo[300]),
+                      _circleChart(28, 83.33, 56.67, color: Colors.teal[300]),
+                      _circleChart(18, 63.33, 36.67, color: Colors.amber[300]),
+                    ],
+                  ),
+                  Spacer(),
+                  Container(
+                    width: 42 * Responsive.widthMultiplier,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _filePercent("Photos", "56%", Colors.indigo),
+                        _filePercent("Media", "32%", Colors.teal),
+                        _filePercent("Documents", "12%", Colors.amber),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 5 * Responsive.widthMultiplier,
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+
+  Widget _filePercent(String dataName, String dataPercent, Color color) {
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(3 * Responsive.imageSizeMultiplier),
+          child: Column(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: color,
+                radius: 1 * Responsive.imageSizeMultiplier,
+              )
+            ],
+          ),
+        ),
+        Text(
+          dataName,
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Spacer(),
+        Text(
+          dataPercent,
+          style: TextStyle(
+            color: Colors.grey[600],
+            letterSpacing: 0.25,
+            fontWeight: FontWeight.w600
+          ),
+        )
+      ],
+    );
+  }
+
+
+
+  Widget _circleChart(double sizing, double complete, double incomplete, { Color color}) {
+    return AnimatedCircularChart(
+      size: Size(sizing * Responsive.imageSizeMultiplier, 0.0),
+      initialChartData: <CircularStackEntry> [
+        new CircularStackEntry(
+          <CircularSegmentEntry>[
+            new CircularSegmentEntry(
+              complete,
+              color,
+              rankKey: 'completed'
+            ),
+            new CircularSegmentEntry(
+                complete,
+                Colors.grey[100],
+                rankKey: 'completed'
+            ),
+          ],
+          rankKey: 'progress',
+        ),
+      ],
+      chartType: CircularChartType.Radial,
+      edgeStyle: SegmentEdgeStyle.round,
+      percentageValues: true,
     );
   }
 }

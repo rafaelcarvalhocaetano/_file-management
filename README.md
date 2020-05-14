@@ -1,6 +1,6 @@
 # file_management
 
-File management is an application for managing files with flutter
+A new Flutter project.
 
 ## Getting Started
 
