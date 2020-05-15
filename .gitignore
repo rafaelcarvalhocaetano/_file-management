@@ -8,7 +8,7 @@
 .buildlog/
 .history
 .svn/
-
+gen
 gen/
 .idea/
 
@@ -33,6 +33,8 @@ build/
 .pub-cache/
 .pub/
 /build/
+/gen/
+.idea/
 
 # Web related
 lib/generated_plugin_registrant.dart

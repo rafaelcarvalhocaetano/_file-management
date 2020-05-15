@@ -1,7 +1,9 @@
 import 'package:file_management/sizeconfig.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'MediaPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,6 +20,7 @@ class MyApp extends StatelessWidget {
       return OrientationBuilder(builder: (context, orientation) {
         Responsive().init(constraints, orientation);
         return MaterialApp(
+          debugShowMaterialGrid: false,
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.blue,
@@ -149,10 +152,236 @@ class _MyHomePageState extends State<HomePage> {
             ),
             SizedBox(
               width: 5 * Responsive.widthMultiplier,
-            )
+            ),
+            Container(
+              height: 40 * Responsive.heightMultiplier,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 6 * Responsive.imageSizeMultiplier),
+                    child: _mediaStack(
+                      "assets/image.png",
+                      Colors.green[100],
+                      "Photos",
+                      "682 items",
+                      "Private Folder",
+                      Colors.green[200],
+                      Icon(
+                        Icons.lock_outline,
+                        color: Colors.green[500],
+                      )
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5 * Responsive.widthMultiplier,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MediaPage())
+                      );
+                    },
+                    child: _mediaStack(
+                      "assets/video.png",
+                      Colors.amber[100],
+                      "Media",
+                      "78 items",
+                      "Public Folder",
+                      Colors.amber[200],
+                      Icon(
+                        Icons.lock_open,
+                        color: Colors.amber[500],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 4 * Responsive.heightMultiplier,
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                right: 6 * Responsive.widthMultiplier,
+                left: 6 * Responsive.widthMultiplier,
+                bottom: 2 * Responsive.heightMultiplier
+              ),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 6 * Responsive.heightMultiplier,
+                  ),
+                  Text(
+                    "Latest Files",
+                    style: TextStyle(
+                      fontSize: 3.4 * Responsive.textMultiplier
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(
+                    Icons.more_horiz,
+                    size: 6 * Responsive.imageSizeMultiplier,
+                    color: Colors.green[500],
+                  ),
+                ],
+              ),
+            ),
+            _mediaListItem(
+              "Podcast with Rafael Carvalho",
+              Colors.amber[500],
+              Colors.amber[100],
+              "32Mb 12 Março de 2020",
+              Icons.library_music
+            ),
+            _mediaListItem(
+              "Payouts for 2021",
+              Colors.indigo[500],
+              Colors.indigo[100],
+              "32Mb 4 Junho de 2020",
+              Icons.insert_drive_file
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _mediaListItem(String title, Color icon, Color accent, String meta, IconData mediaIcon) {
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: 2 * Responsive.heightMultiplier,
+        left: 6 * Responsive.widthMultiplier
+      ),
+      child: Row(
+        children: <Widget>[
+          Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: accent,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(3 * Responsive.imageSizeMultiplier),
+                child: Icon(
+                  mediaIcon,
+                  size: 6 * Responsive.imageSizeMultiplier,
+                  color: icon,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 5.0 * Responsive.widthMultiplier),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                    title,
+                  style: TextStyle(
+                    fontSize: 2.3 * Responsive.textMultiplier,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.green[600],
+                  ),
+                ),
+                SizedBox(
+                  height: 0.5 * Responsive.heightMultiplier,
+                ),
+                Text(
+                  meta,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 1.0 * Responsive.textMultiplier,
+                    color: Colors.grey[500]
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _mediaStack(String image, Color color, String media, String item, String privacy, Color shadow, Icon lock) {
+    return Stack(
+      children: <Widget>[
+        Opacity(
+          opacity: 0.8,
+          child: Container(
+            height: 48 * Responsive.heightMultiplier,
+            width: 55 * Responsive.widthMultiplier,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(32.0),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5 * Responsive.heightMultiplier,
+          left: 6 * Responsive.widthMultiplier,
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                new BoxShadow(
+                  color: shadow,
+                  offset: Offset(2.0, 5.0),
+                  blurRadius: 10.0
+                )
+              ]),
+            child: Opacity(
+              opacity: 0.6,
+              child: Image.asset(
+                image,
+                height: 12 * Responsive.imageSizeMultiplier,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 22 * Responsive.heightMultiplier,
+          left: 6 * Responsive.widthMultiplier,
+          child: Column(
+            children: <Widget>[
+              Text(
+                media,
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey[800],
+                  fontSize: 3.4 * Responsive.textMultiplier
+                ),
+              ),
+              SizedBox(
+                height: 1 * Responsive.heightMultiplier,
+              ),
+              Text(
+                item,
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey[700],
+                  fontSize: 2.2 * Responsive.textMultiplier
+                ),
+              ),
+              SizedBox(
+                height: 2 * Responsive.heightMultiplier,
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 32 * Responsive.heightMultiplier,
+          left: 2 * Responsive.widthMultiplier,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 4 * Responsive.widthMultiplier),
+                child: lock,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
