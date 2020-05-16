@@ -92,6 +92,7 @@ class _MyHomePageState extends State<HomePage> {
       ),
       body: Container(
         color: Colors.white,
+        height: 100 * Responsive.heightMultiplier,
         child: ListView(
           children: <Widget>[
             Padding(
@@ -153,50 +154,55 @@ class _MyHomePageState extends State<HomePage> {
             SizedBox(
               width: 5 * Responsive.widthMultiplier,
             ),
-            Container(
-              height: 40 * Responsive.heightMultiplier,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 6 * Responsive.imageSizeMultiplier),
-                    child: _mediaStack(
-                      "assets/image.png",
-                      Colors.green[100],
-                      "Photos",
-                      "682 items",
-                      "Private Folder",
-                      Colors.green[200],
-                      Icon(
-                        Icons.lock_outline,
-                        color: Colors.green[500],
-                      )
-                    ),
-                  ),
-                  SizedBox(
-                    width: 5 * Responsive.widthMultiplier,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MediaPage())
-                      );
-                    },
-                    child: _mediaStack(
-                      "assets/video.png",
-                      Colors.amber[100],
-                      "Media",
-                      "78 items",
-                      "Public Folder",
-                      Colors.amber[200],
-                      Icon(
-                        Icons.lock_open,
-                        color: Colors.amber[500],
+            Padding(
+              padding: EdgeInsets.only(
+                top: 6 * Responsive.heightMultiplier,
+              ),
+              child: Container(
+                height: 40 * Responsive.heightMultiplier,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 6 * Responsive.imageSizeMultiplier),
+                      child: _mediaStack(
+                        "assets/image.png",
+                        Colors.green[100],
+                        "Photos",
+                        "682 items",
+                        "Private Folder",
+                        Colors.green[200],
+                        Icon(
+                          Icons.lock_outline,
+                          color: Colors.green[500],
+                        )
                       ),
                     ),
-                  )
-                ],
+                    SizedBox(
+                      width: 5 * Responsive.widthMultiplier,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MediaPage())
+                        );
+                      },
+                      child: _mediaStack(
+                        "assets/video.png",
+                        Colors.amber[100],
+                        "Media",
+                        "78 items",
+                        "Public Folder",
+                        Colors.amber[200],
+                        Icon(
+                          Icons.lock_open,
+                          color: Colors.amber[500],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(
